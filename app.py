@@ -4,28 +4,39 @@ import decimal
 
 
 def updated_damages(damages):
-  updated = []
-  for item in damages:
-    if(item == 'Damages not recorded'):
-      updated.append(item)
-    else:
-      number = item[:-1]
-      updated.append(float(number))
-  return updated
+    updated = []
+    for item in damages:
+        if(item == 'Damages not recorded'):
+            updated.append(item)
+        else:
+            number = item[:-1]
+            updated.append(float(number))
+    return updated
 
-def combine_data(names, months, years, max_sustained_winds, areas_affected, damages, deaths):
+
+def combine_data(names, months, years, max_sustained_winds, areas_affected,
+                 damages, deaths):
     combined_data = {}
     for i in range(len(names)):
-        combined_data[names[i]] = {'Month' : months[i], 'Year' : years[i], 'Max Sustained Wind' : max_sustained_winds[i], 'Areas Affected' : areas_affected[i], 'Damage' : damages[i], 'Deaths' : deaths[i]}
-    #print(combined_data)
+        combined_data[names[i]] = {'Month': months[i], 'Year': years[i],
+                                   'Max Sustained Wind': max_sustained_winds[i],
+                                   'Areas Affected': areas_affected[i],
+                                   'Damage': damages[i], 'Deaths': deaths[i]}
     return combined_data
+
 
 def year_as_key(dict):
     newDict = {}
     for key, value in dict.items():
-        newDict[value['Year']] = {'Name' : key, 'Month' : value['Month'], 'Max Sustained Wind' : value['Max Sustained Wind'], 'Areas Affected' : value['Areas Affected'], 'Damage' : value['Damage'], 'Deaths' : value['Deaths']}
+        newDict[value['Year']] = {'Name': key, 'Month': value['Month'],
+                                  'Max Sustained Wind':
+                                   value['Max Sustained Wind'],
+                                  'Areas Affected': value['Areas Affected'],
+                                  'Damage': value['Damage'], 'Deaths':
+                                   value['Deaths']}
         print(newDict)
     return newDict
+
 
 def frequency_for_areas(dict):
     new_list = []
@@ -35,11 +46,13 @@ def frequency_for_areas(dict):
             new_dict = Counter(new_list)
     return new_dict
 
+
 def most_frequent(dict):
     tmp_list = list(dict)
     tmp_list2 = list(dict.values())
     result = (tmp_list[0], tmp_list2[0])
     return result
+
 
 def most_deaths(dict):
     new_list = []
@@ -47,6 +60,7 @@ def most_deaths(dict):
         new_list.append(value['Deaths'])
     new_list.sort()
     return (new_list[-1])
+
 
 def rating_deaths(dict):
     new_dict = {}
@@ -76,50 +90,49 @@ def rating_deaths(dict):
         new_dict[i] = lists_combined[-1-i]
     return (new_dict)
 
+
 def biggest_damage(dict):
     damage_list = []
     for value in dict.values():
-        #print(value['Damage'])
         if(value['Damage'][-1] == 'B'):
-         damage_list.append(float(value['Damage'][:-1]))
+            damage_list.append(float(value['Damage'][:-1]))
     damage_list.sort()
     to_decimal = decimal.Decimal(damage_list[-1])
     tmp_damage = str(to_decimal) + 'B'
     result_dict = {}
-
-    for key,value in dict.items():
+    for key, value in dict.items():
         if(value['Damage'] == tmp_damage):
             result_dict[key] = value['Damage']
     return (result_dict)
 
+
 def damage_scale(dict):
     new_dict = {}
-
     for key, value in dict.items():
-        if( value['Damage'] == 'Damages not recorded'):
+        if(value['Damage'] == 'Damages not recorded'):
             pass
-        elif( value['Damage'][-1] == 'M'):
+        elif(value['Damage'][-1] == 'M'):
             milions_to_float = float(value['Damage'][:-1])
             to_milions = int(milions_to_float*1000000)
             if(to_milions > 50000000000):
                 try:
                     new_dict['4'].append(key)
-                except:
+                except KeyError:
                     new_dict['4'] = [key]
             elif(to_milions > 10000000000):
                 try:
                     new_dict['3'].append(key)
-                except:
+                except KeyError:
                     new_dict['3'] = [key]
-            elif(to_milions > 1000000000 ):
+            elif(to_milions > 1000000000):
                 try:
                     new_dict['2'].append(key)
-                except:
+                except KeyError:
                     new_dict['2'] = [key]
-            elif(to_milions > 100000000 ):
+            elif(to_milions > 100000000):
                 try:
                     new_dict['1'].append(key)
-                except:
+                except KeyError:
                     new_dict['1'] = [key]
             else:
                 try:
@@ -132,32 +145,35 @@ def damage_scale(dict):
             if(tobilions > 50000000000):
                 try:
                     new_dict['4'].append(key)
-                except:
+                except KeyError:
                     new_dict['4'] = [key]
             elif(tobilions > 10000000000):
                 try:
                     new_dict['3'].append(key)
-                except:
+                except KeyError:
                     new_dict['3'] = [key]
-            elif(tobilions > 1000000000 ):
+            elif(tobilions > 1000000000):
                 try:
                     new_dict['2'].append(key)
-                except:
+                except KeyError:
                     new_dict['2'] = [key]
-            elif(tobilions > 100000000 ):
+            elif(tobilions > 100000000):
                 try:
                     new_dict['1'].append(key)
-                except:
+                except KeyError:
                     new_dict['1'] = [key]
             else:
                 try:
                     new_dict['0'].append(key)
-                except:
+                except KeyError:
                     new_dict['0'] = [key]
     return(new_dict)
 
-my_dict2 = combine_data(d.names, d.months, d.years, d.max_sustained_winds, d.areas_affected, d.damages, d.deaths)
-my_dict = combine_data(d.names, d.months, d.years, d.max_sustained_winds, d.areas_affected, updated_damages(d.damages), d.deaths)
+
+my_dict2 = combine_data(d.names, d.months, d.years, d.max_sustained_winds,
+                        d.areas_affected, d.damages, d.deaths)
+my_dict = combine_data(d.names, d.months, d.years, d.max_sustained_winds,
+                       d.areas_affected, updated_damages(d.damages), d.deaths)
 frequency_for_areas(my_dict)
 rating_deaths(my_dict)
 biggest_damage(my_dict2)
