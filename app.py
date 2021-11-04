@@ -99,43 +99,66 @@ def damage_scale(dict):
         if( value['Damage'] == 'Damages not recorded'):
             pass
         elif( value['Damage'][-1] == 'M'):
-            print("Miliony")
             milions_to_float = float(value['Damage'][:-1])
             to_milions = int(milions_to_float*1000000)
-            print(to_milions)
             if(to_milions > 50000000000):
-                new_dict['4'] += to_milions
+                try:
+                    new_dict['4'].append(key)
+                except:
+                    new_dict['4'] = [key]
             elif(to_milions > 10000000000):
-                new_dict['3'] = to_milions
+                try:
+                    new_dict['3'].append(key)
+                except:
+                    new_dict['3'] = [key]
             elif(to_milions > 1000000000 ):
-                new_dict['2'] = to_milions
+                try:
+                    new_dict['2'].append(key)
+                except:
+                    new_dict['2'] = [key]
             elif(to_milions > 100000000 ):
-                new_dict['1'] = to_milions
+                try:
+                    new_dict['1'].append(key)
+                except:
+                    new_dict['1'] = [key]
             else:
-                new_dict['0'] = to_milions
+                try:
+                    new_dict['0'].append(key)
+                except KeyError:
+                    new_dict['0'] = [key]
         else:
-            print("Biliony")
             bilions_to_float = float(value['Damage'][:-1])
             tobilions = int(bilions_to_float*1000000000)
-            print(tobilions)
             if(tobilions > 50000000000):
-                new_dict['4'] = tobilions
+                try:
+                    new_dict['4'].append(key)
+                except:
+                    new_dict['4'] = [key]
             elif(tobilions > 10000000000):
-                new_dict['3'] = tobilions
+                try:
+                    new_dict['3'].append(key)
+                except:
+                    new_dict['3'] = [key]
             elif(tobilions > 1000000000 ):
-                new_dict['2'] = tobilions
+                try:
+                    new_dict['2'].append(key)
+                except:
+                    new_dict['2'] = [key]
             elif(tobilions > 100000000 ):
-                new_dict['1'] = tobilions
+                try:
+                    new_dict['1'].append(key)
+                except:
+                    new_dict['1'] = [key]
             else:
-                new_dict['0'] = tobilions
+                try:
+                    new_dict['0'].append(key)
+                except:
+                    new_dict['0'] = [key]
     return(new_dict)
 
 my_dict2 = combine_data(d.names, d.months, d.years, d.max_sustained_winds, d.areas_affected, d.damages, d.deaths)
 my_dict = combine_data(d.names, d.months, d.years, d.max_sustained_winds, d.areas_affected, updated_damages(d.damages), d.deaths)
-#print(year_as_key(my_dict))
 frequency_for_areas(my_dict)
-#print(most_frequent(frequency_for_areas(my_dict)))
-#print(most_deaths(my_dict))
 rating_deaths(my_dict)
 biggest_damage(my_dict2)
 damage_scale(my_dict2)
